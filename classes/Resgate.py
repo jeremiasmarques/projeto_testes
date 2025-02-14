@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import List
 
 from classes.Animal import Animal
@@ -6,17 +5,23 @@ from classes.Voluntario import Voluntario
 
 
 class Resgate:
-    def __init__(self, data: datetime, local: str, animais: List[Animal], participantes: List[Voluntario]):
+    def __init__(self, data: str, local: str, animais: List[Animal], participantes: List[Voluntario]):
         self._data = data
         self._local = local
         self._animais = animais
         self._participantes = participantes
+
+        for i in self._animais:
+            i.set_data_chegada(data)
 
     def get_data(self):
         return self._data
 
     def set_data(self, data):
         self._data = data
+
+        for i in self._animais:
+            i.set_data_chegada(data)
 
     def get_local(self):
         return self._local

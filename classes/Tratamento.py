@@ -1,8 +1,5 @@
-from datetime import datetime
-
-
 class Tratamento:
-    def __init__(self, descricao : str, medicamentos, procedimento, datahora : datetime):
+    def __init__(self, descricao : str, medicamentos : str, procedimento : str, datahora : str):
         self.descricao = descricao
         self.medicamentos = medicamentos
         self.procedimentos = procedimento

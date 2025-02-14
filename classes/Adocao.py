@@ -1,22 +1,22 @@
-from datetime import datetime
-
 from classes.Animal import Animal
-from classes.Pretedente import Pretendente
+from classes.Pretendente import Pretendente
 
 
 class Adocao:
-    def __init__(self, data: datetime, status: str, animal: Animal, pretendente: Pretendente, termo_adocao: str):
+    def __init__(self, data: str, status: str, animal: Animal, pretendente: Pretendente, termo_adocao: str):
         self._data = data
         self._status = status
         self._animal = animal
         self._pretendente = pretendente
         self._termo_adocao = termo_adocao
+        self._animal.set_data_saida(data)
 
     def get_data(self):
         return self._data
 
     def set_data(self, data):
         self._data = data
+        self._animal.set_data_saida(data)
 
     def get_status(self):
         return self._status

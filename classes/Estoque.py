@@ -32,7 +32,8 @@ class Estoque:
     def get_itens(self):
         return self._itens
 
-    def entrada_item(self, item: Item, quantidade: int):
+    def entrada_item(self, item: Item):
+        quantidade = item.get_quantidade()
         if item.get_nome() in self._itens:
             self._itens[item.get_nome()]._quantidade += quantidade
         else:

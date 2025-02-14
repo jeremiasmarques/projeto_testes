@@ -1,10 +1,9 @@
-from datetime import datetime
 from classes.Tratamento import Tratamento
 
 
 class Animal:
     def __init__(self, nome: str, especie: str, idade_estimada: int, sexo: str, raca: str,
-                 caracteristicas: str, data_chegada: datetime, data_saida: datetime = None):
+                 caracteristicas: str, data_chegada: str = None, data_saida: str = None):
         self._nome = nome
         self._especie = especie
         self._idade_estimada = idade_estimada

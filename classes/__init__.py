@@ -4,7 +4,7 @@ from classes.Doador import Doador
 from classes.Estoque import Estoque
 from classes.Item import Item
 from classes.Pessoa import Pessoa
-from classes.Pretedente import Pretendente
+from classes.Pretendente import Pretendente
 from classes.Resgate import Resgate
 from classes.Tratamento import Tratamento
 from classes.Voluntario import Voluntario
