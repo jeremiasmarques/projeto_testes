@@ -1,5 +1,4 @@
 from typing import List
-
 from classes.Animal import Animal
 from classes.Voluntario import Voluntario
 
@@ -8,45 +7,66 @@ class Resgate:
     def __init__(self, data: str, local: str, animais: List[Animal], participantes: List[Voluntario]):
         self._data = data
         self._local = local
-        self._animais = animais
-        self._participantes = participantes
+        self._animais = list(animais)  # Cópia para evitar modificação externa
+        self._participantes = list(participantes)  # Cópia para evitar modificação externa
 
-        for i in self._animais:
-            i.set_data_chegada(data)
+        # Define a data de chegada para todos os animais resgatados
+        for animal in self._animais:
+            if isinstance(animal, Animal):
+                animal.data_chegada = data
+            else:
+                raise ValueError("Todos os itens da lista 'animais' devem ser instâncias de Animal")
 
-    def get_data(self):
+        for voluntario in self._participantes:
+            if not isinstance(voluntario, Voluntario):
+                raise ValueError("Todos os itens da lista 'participantes' devem ser instâncias de Voluntario")
+
+    @property
+    def data(self):
         return self._data
 
-    def set_data(self, data):
-        self._data = data
+    @data.setter
+    def data(self, nova_data: str):
+        self._data = nova_data
+        for animal in self._animais:
+            animal.data_chegada(nova_data)
 
-        for i in self._animais:
-            i.set_data_chegada(data)
-
-    def get_local(self):
+    @property
+    def local(self):
         return self._local
 
-    def set_local(self, local):
-        self._local = local
+    @local.setter
+    def local(self, novo_local: str):
+        self._local = novo_local
 
-    def get_animais(self):
-        return self._animais
-
-    def set_animais(self, animais):
-        self._animais = animais
-
-    def get_participantes(self):
-        return self._participantes
-
-    def set_participantes(self, participantes):
-        self._participantes = participantes
+    @property
+    def animais(self):
+        return self._animais[:]  # Retorna uma cópia para evitar modificações externas
 
     def adicionar_animal(self, animal: Animal):
-        self._animais.append(animal)
+        if isinstance(animal, Animal):
+            self._animais.append(animal)
+            animal.data_chegada(self._data)
+        else:
+            raise ValueError("O objeto adicionado deve ser uma instância de Animal")
+
+    @property
+    def participantes(self):
+        return self._participantes[:]
 
     def adicionar_participante(self, voluntario: Voluntario):
-        self._participantes.append(voluntario)
+        if isinstance(voluntario, Voluntario):
+            self._participantes.append(voluntario)
+        else:
+            raise ValueError("O objeto adicionado deve ser uma instância de Voluntario")
 
     def __repr__(self):
-        return (f"Resgate({self._data}, {self._local}, Animais: {len(self._animais)}, "
-                f"Participantes: {len(self._participantes)})")
+        return (f"Resgate(data={self._data}, local={self._local}, "
+                f"Animais={len(self._animais)}, Participantes={len(self._participantes)})")
+
+    def __str__(self):
+        animais_str = ", ".join([str(animal) for animal in self._animais])
+        participantes_str = ", ".join([str(part) for part in self._participantes])
+        return (f"Resgate em {self._local} na data {self._data}\n"
+                f"Animais resgatados: {animais_str}\n"
+                f"Participantes: {participantes_str}")

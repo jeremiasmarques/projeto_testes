@@ -7,14 +7,24 @@ class Voluntario(Pessoa):
         self._funcao = funcao
         self._escala = escala
 
-    def get_funcao(self):
+    @property
+    def funcao(self):
         return self._funcao
 
-    def set_funcao(self, funcao: str):
+    @funcao.setter
+    def funcao(self, funcao: str):
         self._funcao = funcao
 
-    def get_escala(self):
+    @property
+    def escala(self):
         return self._escala
 
-    def set_escala(self, escala: str):
+    @escala.setter
+    def escala(self, escala: str):
         self._escala = escala
+
+    def __str__(self):
+        return f"Voluntário: {self._nome}, Contato: {self._contato}, Função: {self._funcao}, Escala: {self._escala}"
+
+    def __repr__(self):
+        return f"Voluntario({self._nome}, {self._contato}, {self._funcao}, {self._escala})"

@@ -2,11 +2,11 @@ from classes.Tratamento import Tratamento
 
 
 class Animal:
-    def __init__(self, nome: str, especie: str, idade_estimada: int, sexo: str, raca: str,
-                 caracteristicas: str, data_chegada: str = None, data_saida: str = None):
+    def __init__(self, nome: str, especie: str, idade: int, sexo: str, raca: str,
+                 caracteristicas: str, data_chegada: str = "", data_saida: str = ""):
         self._nome = nome
         self._especie = especie
-        self._idade_estimada = idade_estimada
+        self._idade = idade
         self._sexo = sexo
         self._raca = raca
         self._caracteristicas = caracteristicas
@@ -14,60 +14,82 @@ class Animal:
         self._data_saida = data_saida
         self._tratamentos = []
 
-    def get_nome(self):
+    @property
+    def nome(self):
         return self._nome
 
-    def set_nome(self, nome):
+    @nome.setter
+    def nome(self, nome: str):
         self._nome = nome
 
-    def get_especie(self):
+    @property
+    def especie(self):
         return self._especie
 
-    def set_especie(self, especie):
+    @especie.setter
+    def especie(self, especie: str):
         self._especie = especie
 
-    def get_idade_estimada(self):
-        return self._idade_estimada
+    @property
+    def idade(self):
+        return self._idade
 
-    def set_idade_estimada(self, idade_estimada):
-        self._idade_estimada = idade_estimada
+    @idade.setter
+    def idade(self, idade: int):
+        self._idade = idade
 
-    def get_sexo(self):
+    @property
+    def sexo(self):
         return self._sexo
 
-    def set_sexo(self, sexo):
+    @sexo.setter
+    def sexo(self, sexo: str):
         self._sexo = sexo
 
-    def get_raca(self):
+    @property
+    def raca(self):
         return self._raca
 
-    def set_raca(self, raca):
+    @raca.setter
+    def raca(self, raca: str):
         self._raca = raca
 
-    def get_caracteristicas(self):
+    @property
+    def caracteristicas(self):
         return self._caracteristicas
 
-    def set_caracteristicas(self, caracteristicas):
+    @caracteristicas.setter
+    def caracteristicas(self, caracteristicas: str):
         self._caracteristicas = caracteristicas
 
-    def get_data_chegada(self):
+    @property
+    def data_chegada(self):
         return self._data_chegada
 
-    def set_data_chegada(self, data_chegada):
+    @data_chegada.setter
+    def data_chegada(self, data_chegada: str):
         self._data_chegada = data_chegada
 
-    def get_data_saida(self):
+    @property
+    def data_saida(self):
         return self._data_saida
 
-    def set_data_saida(self, data_saida):
+    @data_saida.setter
+    def data_saida(self, data_saida: str):
         self._data_saida = data_saida
 
-    def get_tratamentos(self):
+    @property
+    def tratamentos(self):
         return self._tratamentos
 
-    def adicionar_tratamento(self, tratamento : Tratamento):
+    def adicionar_tratamento(self, tratamento: Tratamento):
         self._tratamentos.append(tratamento)
 
+    def __str__(self):
+        return (f"Animal: {self.nome}, Espécie: {self.especie}, Idade: {self.idade}, Sexo: {self.sexo}, "
+                f"Raça: {self.raca}, Características: {self.caracteristicas}, "
+                f"Data Chegada: {self.data_chegada}, Data Saída: {self.data_saida}")
+
     def __repr__(self):
-        return (f"Animal({self._nome}, {self._especie}, {self._idade_estimada}, {self._sexo}, {self._raca}, "
-                f"{self._caracteristicas}, {self._data_chegada}, {self._data_saida}, {self._tratamentos})")
+        return (f"Animal({self.nome}, {self.especie}, {self.idade}, {self.sexo}, {self.raca}, "
+                f"{self.caracteristicas}, {self.data_chegada}, {self.data_saida}, {self.tratamentos})")

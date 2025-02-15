@@ -1,30 +1,41 @@
 class Tratamento:
-    def __init__(self, descricao : str, medicamentos : str, procedimento : str, datahora : str):
-        self.descricao = descricao
-        self.medicamentos = medicamentos
-        self.procedimentos = procedimento
-        self.datahora = datahora
+    def __init__(self, descricao: str, medicamentos: str, procedimento: str, datahora: str):
+        self._descricao = descricao
+        self._medicamentos = medicamentos
+        self._procedimento = procedimento
+        self._datahora = datahora
 
-    def get_descricao(self):
-        return self.descricao
+    @property
+    def descricao(self):
+        return self._descricao
 
-    def set_descricao(self, descricao):
-        self.descricao = descricao
+    @descricao.setter
+    def descricao(self, descricao: str):
+        self._descricao = descricao
 
-    def get_medicamentos(self):
-        return self.medicamentos
+    @property
+    def medicamentos(self):
+        return self._medicamentos
 
-    def set_medicamentos(self, medicamentos):
-        self.medicamentos = medicamentos
+    @medicamentos.setter
+    def medicamentos(self, medicamentos: str):
+        self._medicamentos = medicamentos
 
-    def get_procedimentos(self):
-        return self.procedimentos
+    @property
+    def procedimento(self):
+        return self._procedimento
 
-    def set_procedimentos(self, procedimentos):
-        self.procedimentos = procedimentos
+    @procedimento.setter
+    def procedimento(self, procedimento: str):
+        self._procedimento = procedimento
 
-    def get_data(self):
-        return self.data
+    @property
+    def datahora(self):
+        return self._datahora
 
-    def set_data(self, datahora):
-        self.datahora = datahora
+    @datahora.setter
+    def datahora(self, datahora: str):
+        self._datahora = datahora
+
+    def __str__(self):
+        return f"Tratamento: {self.descricao}, Medicamentos: {self.medicamentos}, Procedimento: {self.procedimento}, Data/Hora: {self.datahora}"

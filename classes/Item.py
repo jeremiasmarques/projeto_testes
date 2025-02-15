@@ -3,6 +3,11 @@ from classes.Doador import Doador
 
 class Item:
     def __init__(self, nome: str, tipo: str, doador: Doador, quantidade: int):
+        if not isinstance(doador, Doador):
+            raise ValueError("O doador deve ser uma instância da classe Doador")
+        if quantidade <= 0:
+            raise ValueError("A quantidade deve ser maior que zero")
+
         self._nome = nome
         self._tipo = tipo
         self._doador = doador
@@ -11,27 +16,41 @@ class Item:
         # Adiciona o item ao histórico de doações do doador
         self._doador.adicionar_doacao(f"{self._quantidade}x {self._nome} ({self._tipo})")
 
-    def get_nome(self):
+    @property
+    def nome(self):
         return self._nome
 
-    def set_nome(self, nome: str):
+    @nome.setter
+    def nome(self, nome: str):
         self._nome = nome
 
-    def get_tipo(self):
+    @property
+    def tipo(self):
         return self._tipo
 
-    def set_tipo(self, tipo: str):
+    @tipo.setter
+    def tipo(self, tipo: str):
         self._tipo = tipo
 
-    def get_doador(self):
+    @property
+    def doador(self):
         return self._doador
 
-    def set_doador(self, doador: Doador):
-        self._doador = doador
-        self._doador.adicionar_doacao(f"{self._quantidade}x {self._nome} ({self._tipo})")
+    @doador.setter
+    def doador(self, doador: Doador):
+        if not isinstance(doador, Doador):
+            raise ValueError("O doador deve ser uma instância da classe Doador")
+        self._doador = doador  # Removendo a adição automática ao histórico
 
-    def get_quantidade(self):
+    @property
+    def quantidade(self):
         return self._quantidade
 
-    def set_quantidade(self, quantidade: int):
+    @quantidade.setter
+    def quantidade(self, quantidade: int):
+        if quantidade <= 0:
+            raise ValueError("A quantidade deve ser maior que zero")
         self._quantidade = quantidade
+
+    def __str__(self):
+        return f"Item: {self._nome}, Tipo: {self._tipo}, Quantidade: {self._quantidade}, Doador: {self._doador.nome}"
