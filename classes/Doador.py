@@ -6,7 +6,8 @@ class Doador(Pessoa):
         super().__init__(nome, contato, endereco)
         self._historico_doacoes = []
 
-    def get_historico_doacoes(self):
+    @property
+    def historico_doacoes(self):
         return self._historico_doacoes
 
     def adicionar_doacao(self, doacao: str):
