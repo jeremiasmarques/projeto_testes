@@ -57,7 +57,7 @@ class BD:
                 print("Saindo do SGRAA... Até logo!")
                 break
             elif opcao == "e":
-                print("Menu de Estoque ainda não implementado!")  # Futuro: self.menu_estoque()
+                self.menu_estoque()
             elif opcao == "v":
                 self.menu_voluntario()
             elif opcao == "a":
@@ -395,3 +395,107 @@ class BD:
             else:
                 print("Opção inválida! Tente novamente.")
 
+    def menu_estoque(self):
+        while True:
+            print("\nO que deseja fazer?")
+            print(
+                "(v) Ver estoque / (a) Adicionar item / (r) Remover item / (h) Ver histórico / (d) Menu Doadores / (s) Sair")
+            opcao = input("Escolha uma opção: ").strip().lower()
+
+            if opcao == "s":
+                print("Voltando ao menu principal...")
+                break
+            elif opcao == "v":
+                self.ver_estoque()
+            elif opcao == "a":
+                self.adicionar_item()
+            elif opcao == "r":
+                self.remover_item()
+            elif opcao == "h":
+                self.ver_historico_estoque()
+            elif opcao == "d":
+                self.menu_doadores()
+            else:
+                print("Opção inválida! Tente novamente.")
+
+    def ver_estoque(self):
+        if not self.estoque.itens:
+            print("O estoque está vazio.")
+        else:
+            print("\nItens no Estoque:")
+            for item, quantidade in self.estoque.itens.items():
+                print(f"{item}: {quantidade}")
+
+    def adicionar_item(self):
+        nome = input("Nome do item: ").strip()
+        tipo = input("Tipo do item: ").strip()
+        doador_nome = input("Nome do doador: ").strip()
+        contato = input("Contato do doador: ").strip()
+        endereco = input("Endereço do doador: ").strip()
+
+        try:
+            quantidade = int(input("Quantidade: ").strip())
+        except ValueError:
+            print("Quantidade inválida. Usando 1 por padrão.")
+            quantidade = 1
+
+        doador = Doador(doador_nome, contato, endereco)
+        item = Item(nome, tipo, doador, quantidade)
+        self.estoque.entrada_item(item)
+        print(f"{quantidade}x {nome} adicionado ao estoque com sucesso!")
+
+    def remover_item(self):
+        nome = input("Nome do item a remover: ").strip()
+
+        try:
+            quantidade = int(input("Quantidade a remover: ").strip())
+        except ValueError:
+            print("Quantidade inválida. Usando 1 por padrão.")
+            quantidade = 1
+
+        try:
+            self.estoque.saida_item(nome, quantidade)
+            print(f"{quantidade}x {nome} removido do estoque com sucesso!")
+        except ValueError as e:
+            print(f"Erro: {e}")
+
+    def ver_historico_estoque(self):
+        historico = self.estoque.historico
+        print("\nHistórico de Entradas:")
+        for entrada in historico["Entradas"]:
+            print(f"{entrada['quantidade']}x {entrada['item']}")
+
+        print("\nHistórico de Saídas:")
+        for saida in historico["Saídas"]:
+            print(f"{saida['quantidade']}x {saida['item']}")
+
+    def menu_doadores(self):
+        while True:
+            print("\nO que deseja fazer?")
+            print("(v) Ver doadores / (n) Novo doador / (s) Sair")
+            opcao = input("Escolha uma opção: ").strip().lower()
+
+            if opcao == "s":
+                print("Voltando ao menu de estoque...")
+                break
+            elif opcao == "v":
+                self.ver_doadores()
+            elif opcao == "n":
+                nome = input("Nome: ").strip()
+                contato = input("Contato: ").strip()
+                endereco = input("Endereço: ").strip()
+                self.novo_doador(nome, contato, endereco)
+            else:
+                print("Opção inválida! Tente novamente.")
+
+    def ver_doadores(self):
+        if not self.doadores:
+            print("Nenhum doador cadastrado.")
+            return
+        print("\nLista de Doadores:")
+        for i, doador in enumerate(self.doadores, start=1):
+            print(f"{i}. {doador.nome} - {doador.contato} - {doador.endereco}")
+
+    def novo_doador(self, nome, contato, endereco):
+        self.doadores.append(Doador(nome, contato, endereco))
+        print(f"Doador {nome} cadastrado com sucesso!")
