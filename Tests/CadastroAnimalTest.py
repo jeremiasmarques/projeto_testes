@@ -59,8 +59,7 @@ class TestCadastroAnimais(unittest.TestCase):
         sexo = "M"
         raca = "Pitbull"
         caracteristicas = "Pelagem marrom"
-        data_chegada = "30/03/2025"  # Data no futuro
-        data_chegada = datetime.strptime(data_chegada, "%d/%m/%Y")  # Converte a string em data
+        data_chegada = "30/03/2026"  # Data no futuro
 
 
         with self.assertRaises(ValueError) as context:

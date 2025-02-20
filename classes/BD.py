@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from classes import Estoque, Pretendente, Voluntario, Doador, Item, Animal, Tratamento, Resgate, Adocao
 
 
@@ -205,6 +207,13 @@ class BD:
         self.novo_animal_inputs(nome,especie,idade,sexo, raca, caracteristicas, data_chegada)
 
     def novo_animal_inputs(self, nome, especie, idade, sexo, raca, caracteristicas, data_chegada):
+        if not nome:  # Verifica se o nome foi preenchido
+            raise ValueError("O nome do animal é obrigatório.")
+
+        data_atual = datetime.now().strftime("%d/%m/%Y")
+        if data_chegada > data_atual:
+            raise ValueError("Data de cadastro não pode ser no futuro.")
+
         animal = Animal(nome, especie, idade, sexo, raca, caracteristicas, data_chegada)
         self.animais.append(animal)
         return animal
