@@ -166,15 +166,32 @@ class BD:
         print("\nLista de Animais:")
         for i, animal in enumerate(self.animais, start=1):
             print(
-                f"{i}. {animal.nome} - {animal.especie} - {animal.idade} anos - {animal.sexo} - {animal.raca} - {animal.caracteristicas}")
+                f"{i}. {animal.nome} - {animal.especie} - {animal.idade} anos - {animal.sexo} - {animal.raca} - {animal.caracteristicas} - Cadastrado em: {animal.data_cadastro}")
 
     def novo_animal(self):
         nome = input("Nome: ").strip()
+        if not nome:  # Verifica se o nome foi preenchido
+           raise ValueError("O nome do animal é obrigatório.")
         especie = input("Espécie: ").strip()
         idade = input("Idade: ").strip()
         sexo = input("Sexo: ").strip()
         raca = input("Raça: ").strip()
+        if not raca:  # Permite raça em branco
+           raca = ""
         caracteristicas = input("Descrição: ").strip()
+        # Data de chegada (a mesma data de cadastro)
+        data_chegada = input("Data de chegada (dd/mm/aaaa): ").strip()
+
+        # Verifica se a data de cadastro é válida
+        try:
+           # data_cadastro = datetime.strptime(data_cadastro, "%d/%m/%Y")
+           data_chegada = datetime.strptime(data_chegada, "%d/%m/%Y")  # Converte a string em data
+           data_atual = datetime.now().strftime("%d/%m/%Y")
+
+           if data_chegada > data_atual:
+                raise ValueError("Data de cadastro não pode ser no futuro.")
+        except ValueError:
+            raise ValueError("Data de cadastro inválida. Formato correto: dd/mm/aaaa.")
 
         try:
             idade = int(idade)
@@ -182,9 +199,15 @@ class BD:
             print("Idade inválida. Usando 0 por padrão.")
             idade = 0
 
-        animal = Animal(nome, especie, idade, sexo, raca, caracteristicas)
-        self.animais.append(animal)
+        # Preenche a data de cadastro automaticamente
+        data_cadastro = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(f"Animal {nome} cadastrado com sucesso!")
+        self.novo_animal_inputs(nome,especie,idade,sexo, raca, caracteristicas, data_chegada)
+
+    def novo_animal_inputs(self, nome, especie, idade, sexo, raca, caracteristicas, data_chegada):
+        animal = Animal(nome, especie, idade, sexo, raca, caracteristicas, data_chegada)
+        self.animais.append(animal)
+        return animal
 
     def editar_animal(self):
         if not self.animais:
