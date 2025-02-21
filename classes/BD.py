@@ -142,7 +142,7 @@ class BD:
             print("\nO que deseja fazer?")
             print(
                 "(v) Ver animais / (n) Novo animal / (e) Editar animal / (r) Gerenciar resgates / (a) Gerenciar "
-                "adoções / (t)Adicionar Tratamento / (s) Sair")
+                "adoções / (t)Adicionar Tratamento /  (t2) Ver Tratamentos / (s) Sair")
             opcao = input("Escolha uma opção: ").strip().lower()
 
             if opcao == "s":
@@ -160,6 +160,8 @@ class BD:
                 self.menu_adocoes()
             elif opcao == "t":
                 self.adicionarTratamentoInfo()
+            elif opcao == "t2":
+                self.ver_tratamento()
             else:
                 print("Opção inválida! Tente novamente.")
 
@@ -565,6 +567,32 @@ class BD:
         tratamento = Tratamento(descricao, medicamentos, procedimento, datahora)
         animal.adicionar_tratamento(tratamento)
         print("Tratamento adicionado com sucesso!")
+
+    def ver_tratamento(self):
+        if not self.animais:
+            print("Nenhum animal cadastrado.")
+            return
+
+        print("\nEscolha o animal para ver os tratamentos:")
+        self.ver_animais()  # Exibe a lista de animais cadastrados
+
+        try:
+            index = int(input("Digite o número do animal que deseja visualizar os tratamentos: ")) - 1
+            if index < 0 or index >= len(self.animais):
+                print("Número inválido.")
+                return
+
+            animal = self.animais[index]
+            if not animal.tratamentos:
+                print(f"O animal {animal.nome} não tem tratamentos registrados.")
+                return
+
+            print(f"\nTratamentos do animal {animal.nome}:")
+            for i, tratamento in enumerate(animal.tratamentos, start=1):
+                print(f"{i}. {tratamento.descricao} - {tratamento.medicamentos} - Procedimento: {tratamento.datahora}")
+        except ValueError:
+            print("Entrada inválida.")
+
 
 
 
