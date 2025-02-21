@@ -142,7 +142,7 @@ class BD:
             print("\nO que deseja fazer?")
             print(
                 "(v) Ver animais / (n) Novo animal / (e) Editar animal / (r) Gerenciar resgates / (a) Gerenciar "
-                "adoções / (s) Sair")
+                "adoções / (t)Adicionar Tratamento / (s) Sair")
             opcao = input("Escolha uma opção: ").strip().lower()
 
             if opcao == "s":
@@ -158,6 +158,8 @@ class BD:
                 self.menu_resgates()
             elif opcao == "a":
                 self.menu_adocoes()
+            elif opcao == "t":
+                self.adicionarTratamentoInfo()
             else:
                 print("Opção inválida! Tente novamente.")
 
@@ -530,3 +532,30 @@ class BD:
     def novo_doador(self, nome, contato, endereco):
         self.doadores.append(Doador(nome, contato, endereco))
         print(f"Doador {nome} cadastrado com sucesso!")
+
+    def adicionar_tratamento(self, tratamento: 'Tratamento'):
+        self._tratamentos.append(tratamento)
+
+    def adicionarTratamentoInfo(self):
+        try:
+            index = int(input("Digite o número do animal que deseja adicionar tratamento: ")) - 1
+            if index < 0 or index >= len(self.animais):
+                print("Número inválido.")
+                return
+        except ValueError:
+             print("Valor inválido. Insira um número.")
+             return
+        animal = self.animais[index]
+        print(f"Adicionando Tratamento ao animal: {animal.nome}")
+
+        descricao = input("descricao: ").strip()
+        medicamentos = input("medicamentos: ").strip()
+        procedimento = input("procedimento: ").strip()
+        datahora = input("datahora: ").strip()
+        tratamento = Tratamento(descricao, medicamentos, procedimento, datahora)
+        animal.adicionar_tratamento(tratamento)
+        print("Tratamento adicionado com sucesso!")
+
+    def ver_tratamento()
+
+
