@@ -1,18 +1,18 @@
 import unittest
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from unittest.mock import patch
-from classes.Estoque import Estoque
-from classes.Item import Item
-from classes.Doador import Doador
+from classes import Estoque, Item, Doador, BD
 
-from classes.BD import BD
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
 class TestEstoque(unittest.TestCase):
 
     def setUp(self):
         """Cria uma instância do Estoque antes de cada teste"""
-        self.estoque = Estoque()
+        bd = BD()
+        self.estoque = Estoque("Estoque", "Local", bd.voluntarios[0])
 
     # Teste CT12.01: Registro de nova entrada de estoque
     @patch('builtins.input', side_effect=["Ração", "Alimento", "Fulano", "123456789", "Rua X", "100"])
@@ -75,7 +75,7 @@ class TestEstoque(unittest.TestCase):
             self.estoque.saida_item(nome_item, quantidade_saida)
 
         # Verifica se o erro foi gerado corretamente
-        self.assertEqual(str(context.exception), "Estoque insuficiente.")
+        self.assertEqual(str(context.exception), "Quantidade insuficiente no estoque ou item inexistente.")
 
     # Teste CT12.04: Entrada de item com quantidade negativa
     @patch('builtins.input', side_effect=["Medicamento", "Medicamento", "Ciclano", "987654321", "Rua Y", "-10"])
@@ -88,14 +88,14 @@ class TestEstoque(unittest.TestCase):
         quantidade_negativa = -10
 
         doador = Doador(doador_nome, contato, endereco)
-        item = Item(nome_item, tipo_item, doador, quantidade_negativa)
 
         # Tenta adicionar um item com quantidade negativa
         with self.assertRaises(ValueError) as context:
-            self.estoque.entrada_item(item)
+            self.estoque.entrada_item(Item(nome_item, tipo_item, doador, quantidade_negativa))
 
         # Verifica se o erro foi gerado corretamente
-        self.assertEqual(str(context.exception), "Quantidade inválida para entrada.")
+        self.assertEqual(str(context.exception), "A quantidade deve ser maior que zero")
+
 
 if __name__ == '__main__':
     unittest.main()
