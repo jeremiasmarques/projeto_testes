@@ -392,13 +392,23 @@ class BD:
         pretendente_escolhido = self.pretendentes[escolha_pretendente]
 
         # Criando a adoção e adicionando à lista
-        adocao = Adocao(data_adocao, status, animal_escolhido, pretendente_escolhido, termo)
-        self.adocoes.append(adocao)
+        self.nova_adocao_inputs(data_adocao, status, animal_escolhido, pretendente_escolhido, termo)
+
         print(f"Adoção registrada com sucesso para {pretendente_escolhido.nome} e {animal_escolhido.nome}!")
 
         # Removendo animal da lista de disponíveis, se a adoção foi aprovada
         if status == "Aprovado":
             self.animais.remove(animal_escolhido)
+
+    def nova_adocao_inputs(self, data_adocao, status, animal_escolhido, pretendente_escolhido, termo):
+        if len(self.pretendentes) < 1:
+            raise ValueError("Sem pretendentes")
+        adocao = Adocao(data_adocao, status, animal_escolhido, pretendente_escolhido, termo)
+        for i in self.adocoes:
+            if i.animal.nome == adocao.animal.nome:
+                raise ValueError("Ja adotado")
+
+        self.adocoes.append(adocao)
 
     def ver_adocoes(self):
         """Exibe a lista de adoções registradas."""
