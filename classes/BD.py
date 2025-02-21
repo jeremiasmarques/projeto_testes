@@ -566,6 +566,5 @@ class BD:
         animal.adicionar_tratamento(tratamento)
         print("Tratamento adicionado com sucesso!")
 
-    def ver_tratamento()
 
 
