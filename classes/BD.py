@@ -1,5 +1,5 @@
 from classes import Estoque, Pretendente, Voluntario, Doador, Item, Animal, Tratamento, Resgate, Adocao
-
+from datetime import datetime
 
 class BD:
     def __init__(self):
@@ -166,7 +166,7 @@ class BD:
         print("\nLista de Animais:")
         for i, animal in enumerate(self.animais, start=1):
             print(
-                f"{i}. {animal.nome} - {animal.especie} - {animal.idade} anos - {animal.sexo} - {animal.raca} - {animal.caracteristicas} - Cadastrado em: {animal.data_cadastro}")
+                f"{i}. {animal.nome} - {animal.especie} - {animal.idade} anos - {animal.sexo} - {animal.raca} - {animal.caracteristicas} - Cadastrado em: {animal.data_chegada}")
 
     def novo_animal(self):
         nome = input("Nome: ").strip()
@@ -184,9 +184,8 @@ class BD:
 
         # Verifica se a data de cadastro é válida
         try:
-           # data_cadastro = datetime.strptime(data_cadastro, "%d/%m/%Y")
-           data_chegada = datetime.strptime(data_chegada, "%d/%m/%Y")  # Converte a string em data
-           data_atual = datetime.now().strftime("%d/%m/%Y")
+           data_chegada = datetime.strptime(data_chegada, "%d/%m/%Y")  #Converte a string em data
+           data_atual = datetime.now().strptime("%d/%m/%Y")
 
            if data_chegada > data_atual:
                 raise ValueError("Data de cadastro não pode ser no futuro.")
